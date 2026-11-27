@@ -222,6 +222,9 @@ export const santriService = {
     rows: SantriImportRowInput[],
     tahunNis?: number
   ): Promise<{ jumlah: number; nis: string[] }> {
+    if (isApiMode()) {
+      throw new Error('Impor massal santri belum diaktifkan pada API D1. Gunakan tambah santri satu per satu sampai endpoint impor diuji.');
+    }
     await delay(300);
     if (!rows.length) throw new Error('Tidak ada baris yang bisa diimpor');
 
