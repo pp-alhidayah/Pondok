@@ -129,13 +129,11 @@ export async function handleSantriApi(
   if (method === "DELETE" && id) {
     const existing = await env.DB.prepare("SELECT id FROM santri WHERE id = ?").bind(id).first();
     if (!existing) return fail(404, "Data santri tidak ditemukan", "NOT_FOUND");
-    const payment = await env.DB.prepare(
-      "SELECT id FROM iuran_pembayaran WHERE santri_id = ? LIMIT 1"
-    ).bind(id).first();
-    if (payment) {
-      return fail(409, "Santri memiliki riwayat pembayaran sehingga tidak dapat dihapus. Ubah statusnya menjadi Tidak Aktif.", "HAS_PAYMENT_HISTORY");
-    }
-    await env.DB.prepare("DELETE FROM santri WHERE id = ?").bind(id).run();
+    // Soft-delete: jangan menghapus baris santri secara fisik karena tabel
+    // pembayaran lain mungkin menyimpan referensi/riwayat untuk santri ini.
+    await env.DB.prepare(
+      "UPDATE santri SET status = 'Tidak Aktif', updated_at = ?, updated_by = ? WHERE id = ?"
+    ).bind(new Date().toISOString(), userId, id).run();
     return new Response(null, { status: 204 });
   }
 
