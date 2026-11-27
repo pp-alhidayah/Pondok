@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { handleSantriApi } from "./santri";
 
 interface Env {
   DB: D1Database;
@@ -191,6 +192,16 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
 
     await env.DB.prepare("DELETE FROM sessions WHERE id = ?").bind(session.sid).run();
     return json({ data: { ok: true } }, 200, { "set-cookie": clearCookie() });
+  }
+
+  if (path === "/api/santri" || path.startsWith("/api/santri/")) {
+    const session = await currentSession(request, env);
+    if (!session) return error(401, "Login diperlukan", "UNAUTHORIZED");
+    if (!["GET", "HEAD"].includes(method) &&
+        request.headers.get("x-csrf-token") !== session.csrfToken) {
+      return error(403, "Token CSRF tidak valid", "FORBIDDEN");
+    }
+    return handleSantriApi(request, env, session.user.id);
   }
 
   if (path.startsWith("/api/")) {
