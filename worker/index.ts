@@ -220,7 +220,7 @@ export default {
           status: "ok",
           database: result?.ok === 1,
           runtime: "cloudflare-workers-d1",
-          api: "auth-v1",
+          api: "auth+santri-v1",
         });
       }
       if (url.pathname.startsWith("/api/")) return await handleApi(request, env);
