@@ -1,4 +1,5 @@
 import { storage } from './storage';
+import { apiRequest, isApiMode } from './apiClient';
 import { Santri } from '../types/santri';
 import { INITIAL_MOCK_SANTRI } from './mockSantri';
 import { SEED_DEMO_DATA, generateId, hasRiwayatPembayaran, readJsonStrict, todayLocal, isValidCalendarDate } from './core';
@@ -85,22 +86,46 @@ function validateSantri(data: {
 
 export const santriService = {
   async getSantriList(): Promise<Santri[]> {
+    if (isApiMode()) {
+      const response = await apiRequest<{ data: Santri[] }>('/api/santri');
+      return response.data;
+    }
     await delay(300);
     return getStoredSantri();
   },
 
   async getSantriById(id: string): Promise<Santri | null> {
+    if (isApiMode()) {
+      try {
+        const response = await apiRequest<{ data: Santri }>(`/api/santri/${encodeURIComponent(id)}`);
+        return response.data;
+      } catch (error) {
+        if (error instanceof Error && 'status' in error && (error as {status:number}).status === 404) return null;
+        throw error;
+      }
+    }
     await delay(200);
     return getStoredSantri().find((s) => s.id === id) || null;
   },
 
   async checkNisUnik(nis: string, excludeId?: string): Promise<boolean> {
+    if (isApiMode()) {
+      const list = await this.getSantriList();
+      const target = normalizeNis(nis);
+      return !list.some((s) => normalizeNis(s.nis) === target && s.id !== excludeId);
+    }
     await delay(100);
     const target = normalizeNis(nis);
     return !getStoredSantri().some((s) => normalizeNis(s.nis) === target && s.id !== excludeId);
   },
 
   async createSantri(data: Omit<Santri, 'id' | 'created_at' | 'updated_at'>): Promise<Santri> {
+    if (isApiMode()) {
+      const response = await apiRequest<{ data: Santri }>('/api/santri', {
+        method: 'POST', body: JSON.stringify(data),
+      });
+      return response.data;
+    }
     await delay(300);
     validateSantri(data);
     const list = getStoredSantri();
@@ -126,6 +151,12 @@ export const santriService = {
     id: string,
     data: Partial<Omit<Santri, 'id' | 'created_at' | 'updated_at'>>
   ): Promise<Santri> {
+    if (isApiMode()) {
+      const response = await apiRequest<{ data: Santri }>(`/api/santri/${encodeURIComponent(id)}`, {
+        method: 'PUT', body: JSON.stringify(data),
+      });
+      return response.data;
+    }
     await delay(300);
     validateSantri(data);
     const list = getStoredSantri();
@@ -158,6 +189,10 @@ export const santriService = {
    * karena riwayat harus tetap tampil. Gunakan status "Tidak Aktif".
    */
   async deleteSantri(id: string): Promise<void> {
+    if (isApiMode()) {
+      await apiRequest<void>(`/api/santri/${encodeURIComponent(id)}`, { method: 'DELETE' });
+      return;
+    }
     await delay(300);
     const list = getStoredSantri();
     const target = list.find((s) => s.id === id);
@@ -187,6 +222,9 @@ export const santriService = {
     rows: SantriImportRowInput[],
     tahunNis?: number
   ): Promise<{ jumlah: number; nis: string[] }> {
+    if (isApiMode()) {
+      throw new Error('Impor massal santri belum diaktifkan pada API D1. Gunakan tambah santri satu per satu sampai endpoint impor diuji.');
+    }
     await delay(300);
     if (!rows.length) throw new Error('Tidak ada baris yang bisa diimpor');
 

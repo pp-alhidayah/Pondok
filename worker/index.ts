@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { handleSantriApi } from "./santri";
 
 interface Env {
   DB: D1Database;
@@ -193,6 +194,22 @@ async function handleApi(request: Request, env: Env): Promise<Response> {
     return json({ data: { ok: true } }, 200, { "set-cookie": clearCookie() });
   }
 
+  if (
+    path === "/api/santri" || path.startsWith("/api/santri/") ||
+    path === "/api/master/santri" || path.startsWith("/api/master/santri/")
+  ) {
+    const session = await currentSession(request, env);
+    if (!session) return error(401, "Login diperlukan", "UNAUTHORIZED");
+    if (!["GET", "HEAD"].includes(method) &&
+        request.headers.get("x-csrf-token") !== session.csrfToken) {
+      return error(403, "Token CSRF tidak valid", "FORBIDDEN");
+    }
+    // Frontend API bridge uses /api/master/santri; direct service uses /api/santri.
+    const target = new URL(request.url);
+    target.pathname = target.pathname.replace(/^\\/api\\/master\\/santri/, "/api/santri");
+    return handleSantriApi(new Request(target, request), env, session.user.id);
+  }
+
   if (path.startsWith("/api/")) {
     return error(501, "Endpoint API ini belum dimigrasikan ke Cloudflare Workers", "NOT_IMPLEMENTED");
   }
@@ -209,7 +226,7 @@ export default {
           status: "ok",
           database: result?.ok === 1,
           runtime: "cloudflare-workers-d1",
-          api: "auth-v1",
+          api: "auth+santri-v1",
         });
       }
       if (url.pathname.startsWith("/api/")) return await handleApi(request, env);
