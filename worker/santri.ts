@@ -129,10 +129,11 @@ export async function handleSantriApi(
   if (method === "DELETE" && id) {
     const existing = await env.DB.prepare("SELECT id FROM santri WHERE id = ?").bind(id).first();
     if (!existing) return fail(404, "Data santri tidak ditemukan", "NOT_FOUND");
-    const paymentTables = ["transaksi_syahriyah", "transaksi_kilatan", "iuran_pembayaran"];
-    for (const table of paymentTables) {
-      const found = await env.DB.prepare(`SELECT id FROM ${table} WHERE santri_id = ? LIMIT 1`).bind(id).first();
-      if (found) return fail(409, "Santri memiliki riwayat pembayaran sehingga tidak dapat dihapus. Ubah statusnya menjadi Tidak Aktif.", "HAS_PAYMENT_HISTORY");
+    const payment = await env.DB.prepare(
+      "SELECT id FROM iuran_pembayaran WHERE santri_id = ? LIMIT 1"
+    ).bind(id).first();
+    if (payment) {
+      return fail(409, "Santri memiliki riwayat pembayaran sehingga tidak dapat dihapus. Ubah statusnya menjadi Tidak Aktif.", "HAS_PAYMENT_HISTORY");
     }
     await env.DB.prepare("DELETE FROM santri WHERE id = ?").bind(id).run();
     return new Response(null, { status: 204 });
