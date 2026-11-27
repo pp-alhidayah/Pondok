@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator KOP SURAT Profesional</title>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-hover: #253349;
+      --accent: #3b82f6;
+      --accent-hover: #2563eb;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --input-bg: #1a2235;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+      background: #070c16;
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    /* ============ PANEL KIRI ============ */
+    #panel-kiri {
+      width: 370px; min-width: 370px; height: 100vh;
+      background: var(--bg); display: flex; flex-direction: column;
+      border-right: 1px solid var(--border); z-index: 10; box-shadow: var(--shadow);
+    }
+    #panel-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #1a2740 0%, #0f1a2e 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    #panel-header .logo-icon {
+      width: 38px; height: 38px; border-radius: var(--radius-sm);
+      background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 20px;
+      flex-shrink: 0;
+    }
+    #panel-header h2 { font-size: 15px; font-weight: 700; letter-spacing: -0.2px; color: #fff; line-height: 1.2; }
+    #panel-header .subtitle { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+    #panel-scroll {
+      flex: 1; overflow-y: auto; overflow-x: hidden; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    #panel-scroll::-webkit-scrollbar { width: 5px; }
+    #panel-scroll::-webkit-scrollbar-track { background: transparent; }
+    #panel-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+    .section-card {
+      background: var(--card); border-radius: var(--radius); padding: 14px 16px;
+      border: 1px solid transparent; transition: all 0.2s;
+    }
+    .section-card:hover { border-color: var(--border); }
+    .section-title {
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;
+      color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-title svg { width: 14px; height: 14px; flex-shrink: 0; }
+    .input-group { margin-bottom: 9px; }
+    .input-group:last-child { margin-bottom: 0; }
+    .input-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.2px; }
+    .input-group input[type="text"],
+    .input-group input[type="email"],
+    .input-group input[type="url"],
+    .input-group textarea {
+      width: 100%; padding: 8px 10px; background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: #fff; font-size: 12px; font-family: inherit;
+      transition: all 0.2s; outline: none;
+    }
+    .input-group input:focus,
+    .input-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+    .input-group textarea { resize: vertical; min-height: 44px; max-height: 80px; }
+    .input-row { display: flex; gap: 8px; align-items: center; }
+    .input-row > * { flex: 1; }
+    .input-row .half { flex: 0.5; }
+    .input-group input[type="range"] {
+      -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px;
+      background: var(--border); outline: none; cursor: pointer; margin: 4px 0;
+    }
+    .input-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent); cursor: pointer; border: 2px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3); transition: all 0.15s;
+    }
+    .input-group input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); background: #4d94ff; }
+    .range-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); }
+    .input-group input[type="color"] {
+      -webkit-appearance: none; width: 36px; height: 30px; border: 2px solid var(--border);
+      border-radius: var(--radius-sm); cursor: pointer; background: transparent; padding: 2px;
+    }
+    .input-group input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+    .input-group input[type="color"]::-webkit-color-swatch { border-radius: 3px; border: none; }
+    .input-group select {
+      width: 100%; padding: 8px 10px; background: var(--input-bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); color: #fff; font-size: 12px; font-family: inherit;
+      outline: none; cursor: pointer;
+    }
+    .input-group select:focus { border-color: var(--accent); }
+    .checkbox-group { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 12px; font-weight: 500; padding: 4px 0; }
+    .checkbox-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+    .radio-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .radio-pill { flex: 1; min-width: 55px; }
+    .radio-pill input { display: none; }
+    .radio-pill label {
+      display: block; text-align: center; padding: 7px 8px; background: var(--input-bg);
+      border: 1px solid var(--border); border-radius: 20px; font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; color: var(--text-muted);
+    }
+    .radio-pill input:checked + label { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px;
+      border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid transparent;
+      transition: all 0.2s; letter-spacing: 0.2px; white-space: nowrap; font-family: inherit;
+    }
+    .btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-accent:hover { background: var(--accent-hover); box-shadow: 0 4px 12px rgba(59,130,246,0.35); }
+    .btn-outline { background: transparent; border-color: var(--border); color: var(--text); }
+    .btn-outline:hover { background: var(--card-hover); border-color: #64748b; }
+    .btn-danger { background: transparent; border-color: var(--danger); color: var(--danger); }
+    .btn-danger:hover { background: var(--danger); color: #fff; }
+    .btn-sm { padding: 6px 10px; font-size: 10px; border-radius: 16px; }
+    .btn-xs { padding: 4px 8px; font-size: 10px; border-radius: 14px; }
+    .btn-block { width: 100%; justify-content: center; }
+    .btn-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .btn-row .btn { flex: 1; min-width: 60px; }
+    .logo-preview-thumb {
+      width: 50px; height: 50px; border-radius: var(--radius-sm); border: 2px dashed var(--border);
+      display: flex; align-items: center; justify-content: center; overflow: hidden; background: #111827; flex-shrink: 0;
+    }
+    .logo-preview-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .logo-preview-thumb .placeholder { font-size: 20px; color: var(--border); }
+    .file-upload-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .file-upload-wrap input[type="file"] { font-size: 11px; color: var(--text-muted); max-width: 160px; }
+    .file-upload-wrap input[type="file"]::file-selector-button {
+      background: var(--accent); color: #fff; border: none; padding: 6px 12px;
+      border-radius: 16px; cursor: pointer; font-size: 11px; font-weight: 600; margin-right: 6px;
+    }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2px 0; }
+
+    /* ============ PANEL KANAN ============ */
+    #panel-kanan {
+      flex: 1; height: 100vh; background: #1a1f2e; display: flex; align-items: flex-start; justify-content: center;
+      padding: 20px; overflow: hidden; position: relative;
+    }
+    #panel-kanan::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 40%, rgba(59,130,246,0.03) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 60%, rgba(139,92,246,0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .preview-wrapper { position: relative; z-index: 1; transform-origin: top center; transition: transform 0.2s ease; flex-shrink: 0; }
+    #preview-kertas {
+      width: 595px; min-height: 842px; background: #ffffff;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.1);
+      border-radius: 4px; position: relative; overflow: hidden; transition: all 0.3s;
+    }
+    #preview-kertas.bg-putih { background: #ffffff; }
+    #preview-kertas.bg-abu { background: #f5f5f5; }
+    #preview-content {
+      width: 100%; min-height: 100%; color: #1a1a1a; font-family: 'Arial', sans-serif;
+      display: flex; flex-direction: column;
+    }
+    .kop-header { display: flex; align-items: flex-start; width: 100%; gap: 20px; }
+    .kop-logo-left, .kop-logo-right { flex-shrink: 0; display: flex; align-items: flex-start; }
+    .kop-logo-left img, .kop-logo-right img { display: block; object-fit: contain; }
+    .kop-teks-area { flex: 1; min-width: 0; }
+    .kop-nama-instansi { font-weight: 700; line-height: 1.2; margin: 0; padding: 0; }
+    .kop-nama-divisi { line-height: 1.3; margin: 2px 0 0 0; padding: 0; }
+    .kop-info-kontak { line-height: 1.6; margin: 4px 0 0 0; padding: 0; font-size: 12px; color: #555; }
+    .kop-npsn-nss { line-height: 1.6; margin: 2px 0 0 0; padding: 0; font-size: 11px; color: #444; }
+    .kop-garis { border: none; margin: 0; flex-shrink: 0; }
+    .kop-spacer { flex-shrink: 0; }
+
+    /* Loading overlay */
+    .loading-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9999;
+      display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+      pointer-events: none; opacity: 0; transition: opacity 0.3s;
+    }
+    .loading-overlay.active { opacity: 1; pointer-events: all; }
+    .spinner {
+      width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.2);
+      border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px);
+      background: #1e293b; color: #fff; padding: 12px 24px; border-radius: 30px;
+      font-size: 13px; font-weight: 600; z-index: 10000;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5); border: 1px solid var(--border);
+      transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    .toast.success { border-color: var(--success); color: var(--success); }
+    .toast.error { border-color: var(--danger); color: var(--danger); }
+
+    @media (max-width: 900px) {
+      body { flex-direction: column; overflow: auto; height: auto; }
+      #panel-kiri { width: 100%; min-width: 100%; height: auto; max-height: 50vh; flex-shrink: 0; }
+      #panel-kanan { flex: none; height: auto; min-height: 60vh; padding: 10px; }
+      #preview-kertas { width: 100%; min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <!-- ==================== PANEL KIRI ==================== -->
+  <div id="panel-kiri">
+    <div id="panel-header">
+      <div class="logo-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      </div>
+      <div>
+        <h2>KOP SURAT Generator</h2>
+        <div class="subtitle">Desain Kop Surat Profesional</div>
+      </div>
+    </div>
+    <div id="panel-scroll">
+
+      <!-- Informasi Instansi -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="6" y1="16" x2="12" y2="16"/></svg> Informasi Instansi</div>
+        <div class="input-group"><label>Nama Pemerintahan / Tingkat</label><input type="text" id="inp-nama-pemerintahan" placeholder="contoh: PEMERINTAH KOTA SURABAYA"></div>
+        <div class="input-group"><label>Nama Instansi *</label><input type="text" id="inp-nama-instansi" value="DINAS PENDIDIKAN DAN KEBUDAYAAN"></div>
+        <div class="input-group"><label>Nama Divisi / Sub-bagian</label><input type="text" id="inp-nama-divisi" value="Bidang Pembinaan Sekolah Menengah"></div>
+        <div class="input-group"><label>Alamat</label><textarea id="inp-alamat">Jl. Jenderal Sudirman No. 123, Kompleks Perkantoran</textarea></div>
+        <div class="input-row">
+          <div class="input-group half"><label>Telepon</label><input type="text" id="inp-telepon" value="(021) 555-1234"></div>
+          <div class="input-group half"><label>Email</label><input type="text" id="inp-email" value="info@dikbud.go.id"></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group half"><label>Website</label><input type="text" id="inp-website" value="www.dikbud.go.id"></div>
+          <div class="input-group half"><label>Kode Pos</label><input type="text" id="inp-kodepos" value="12345"></div>
+        </div>
+        <div class="input-row" style="margin-top:4px;">
+          <div class="input-group"><label>NPSN</label><input type="text" id="inp-npsn" placeholder="12345678"></div>
+          <div class="input-group"><label>NSS</label><input type="text" id="inp-nss" placeholder="12345678"></div>
+          <div class="input-group"><label>Akreditasi</label><input type="text" id="inp-akreditasi" placeholder="A / B / ..."></div>
+        </div>
+      </div>
+
+      <!-- Logo Kiri -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Logo Kiri</div>
+        <div class="file-upload-wrap">
+          <input type="file" id="inp-logo-kiri-file" accept="image/*">
+          <div class="logo-preview-thumb" id="thumb-logo-kiri"><span class="placeholder">🖼️</span></div>
+          <button class="btn btn-outline btn-xs" id="btn-hapus-logo-kiri">✕</button>
+        </div>
+        <div class="input-group" style="margin-top:8px;"><label>Ukuran Logo: <span id="val-logo-kiri-size">80</span>px</label><input type="range" id="inp-logo-kiri-size" min="30" max="200" value="80"></div>
+        <div class="input-row">
+          <div class="input-group half"><label>Margin Kiri: <span id="val-logo-kiri-ml">10</span>px</label><input type="range" id="inp-logo-kiri-ml" min="0" max="60" value="10"></div>
+          <div class="input-group half"><label>Margin Atas: <span id="val-logo-kiri-mt">0</span>px</label><input type="range" id="inp-logo-kiri-mt" min="0" max="60" value="0"></div>
+        </div>
+      </div>
+
+      <!-- Logo Kanan -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="15.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Logo Kanan</div>
+        <div class="file-upload-wrap">
+          <input type="file" id="inp-logo-kanan-file" accept="image/*">
+          <div class="logo-preview-thumb" id="thumb-logo-kanan"><span class="placeholder">🖼️</span></div>
+          <button class="btn btn-outline btn-xs" id="btn-hapus-logo-kanan">✕</button>
+        </div>
+        <div class="input-group" style="margin-top:8px;"><label>Ukuran Logo: <span id="val-logo-kanan-size">80</span>px</label><input type="range" id="inp-logo-kanan-size" min="30" max="200" value="80"></div>
+        <div class="input-row">
+          <div class="input-group half"><label>Margin Kanan: <span id="val-logo-kanan-mr">10</span>px</label><input type="range" id="inp-logo-kanan-mr" min="0" max="60" value="10"></div>
+          <div class="input-group half"><label>Margin Atas: <span id="val-logo-kanan-mt">0</span>px</label><input type="range" id="inp-logo-kanan-mt" min="0" max="60" value="0"></div>
+        </div>
+      </div>
+
+      <!-- Pengaturan Teks -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg> Pengaturan Teks</div>
+
+        <div class="section-title" style="margin-top:4px; font-size:11px;">🏛️ Nama Pemerintahan</div>
+        <div class="input-row">
+          <div class="input-group"><label>Font</label><select id="inp-font-pemerintahan"><option value="Arial, sans-serif">Arial</option><option value="'Times New Roman', serif">Times New Roman</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="Helvetica, sans-serif">Helvetica</option><option value="Calibri, sans-serif">Calibri</option></select></div>
+          <div class="input-group" style="flex:0.5;"><label>Size</label><input type="range" id="inp-font-size-pemerintahan" min="10" max="36" value="16"><div class="range-label"><span>10</span><span id="val-font-size-pemerintahan">16</span><span>36</span></div></div>
+        </div>
+        <div class="input-row">
+          <div class="checkbox-group"><input type="checkbox" id="inp-bold-pemerintahan"> <label for="inp-bold-pemerintahan">Bold</label></div>
+          <div class="input-group" style="flex:0.6;"><label>Warna</label><input type="color" id="inp-warna-pemerintahan" value="#1a1a1a"></div>
+        </div>
+
+        <hr class="divider">
+        <div class="section-title" style="margin-top:4px;">📌 Nama Instansi</div>
+        <div class="input-row">
+          <div class="input-group"><label>Font</label><select id="inp-font-nama"><option value="Arial, sans-serif">Arial</option><option value="'Times New Roman', serif">Times New Roman</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="Helvetica, sans-serif">Helvetica</option><option value="Calibri, sans-serif">Calibri</option><option value="'Trebuchet MS', sans-serif">Trebuchet MS</option><option value="Impact, sans-serif">Impact</option></select></div>
+          <div class="input-group" style="flex:0.5;"><label>Size</label><input type="range" id="inp-font-size-nama" min="14" max="48" value="22"><div class="range-label"><span>14</span><span id="val-font-size-nama">22</span><span>48</span></div></div>
+        </div>
+        <div class="input-row">
+          <div class="checkbox-group"><input type="checkbox" id="inp-bold-nama" checked> <label for="inp-bold-nama">Bold</label></div>
+          <div class="input-group" style="flex:0.6;"><label>Warna</label><input type="color" id="inp-warna-nama" value="#1a1a1a"></div>
+        </div>
+
+        <hr class="divider">
+        <div class="section-title" style="margin-top:4px;">📋 Nama Divisi</div>
+        <div class="input-row">
+          <div class="input-group"><label>Font</label><select id="inp-font-divisi"><option value="Arial, sans-serif">Arial</option><option value="'Times New Roman', serif">Times New Roman</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="Helvetica, sans-serif">Helvetica</option><option value="Calibri, sans-serif">Calibri</option></select></div>
+          <div class="input-group" style="flex:0.5;"><label>Size</label><input type="range" id="inp-font-size-divisi" min="10" max="32" value="14"><div class="range-label"><span>10</span><span id="val-font-size-divisi">14</span><span>32</span></div></div>
+        </div>
+        <div class="input-row">
+          <div class="checkbox-group"><input type="checkbox" id="inp-bold-divisi"> <label for="inp-bold-divisi">Bold</label></div>
+          <div class="input-group" style="flex:0.6;"><label>Warna</label><input type="color" id="inp-warna-divisi" value="#333333"></div>
+        </div>
+
+        <hr class="divider">
+        <div class="section-title" style="margin-top:4px;">📞 Info Kontak</div>
+        <div class="input-row">
+          <div class="input-group"><label>Font</label><select id="inp-font-kontak"><option value="Arial, sans-serif">Arial</option><option value="'Times New Roman', serif">Times New Roman</option><option value="Georgia, serif">Georgia</option><option value="Verdana, sans-serif">Verdana</option><option value="'Segoe UI', sans-serif">Segoe UI</option><option value="Helvetica, sans-serif">Helvetica</option><option value="Calibri, sans-serif">Calibri</option></select></div>
+          <div class="input-group" style="flex:0.5;"><label>Size</label><input type="range" id="inp-font-size-kontak" min="8" max="20" value="11"><div class="range-label"><span>8</span><span id="val-font-size-kontak">11</span><span>20</span></div></div>
+        </div>
+        <div class="input-group"><label>Warna</label><input type="color" id="inp-warna-kontak" value="#555555"></div>
+      </div>
+
+      <!-- Pengaturan Layout -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="10" height="10"/></svg> Layout</div>
+        <div id="padding-settings">
+          <div class="input-row">
+            <div class="input-group half"><label>Padding Atas: <span id="val-pad-atas">20</span>px</label><input type="range" id="inp-pad-atas" min="0" max="80" value="20"></div>
+            <div class="input-group half"><label>Padding Bawah: <span id="val-pad-bawah">15</span>px</label><input type="range" id="inp-pad-bawah" min="0" max="80" value="15"></div>
+          </div>
+          <div class="input-row">
+            <div class="input-group half"><label>Padding Kiri: <span id="val-pad-kiri">25</span>px</label><input type="range" id="inp-pad-kiri" min="0" max="80" value="25"></div>
+            <div class="input-group half"><label>Padding Kanan: <span id="val-pad-kanan">25</span>px</label><input type="range" id="inp-pad-kanan" min="0" max="80" value="25"></div>
+          </div>
+        </div>
+        <div class="input-group"><label>Jarak Logo ke Teks: <span id="val-jarak-logo-teks">20</span>px</label><input type="range" id="inp-jarak-logo-teks" min="5" max="60" value="20"></div>
+        <div class="input-group"><label>Jarak Antar Baris (line-height): <span id="val-jarak-baris">1.6</span></label><input type="range" id="inp-jarak-baris" min="1" max="3" step="0.1" value="1.6"></div>
+        <div class="input-group"><label>Posisi Teks</label>
+          <div class="radio-row">
+            <div class="radio-pill"><input type="radio" name="posisi-teks" id="pos-kiri" value="kiri"><label for="pos-kiri">⬅ Kiri</label></div>
+            <div class="radio-pill"><input type="radio" name="posisi-teks" id="pos-tengah" value="tengah" checked><label for="pos-tengah">⬤ Tengah</label></div>
+            <div class="radio-pill"><input type="radio" name="posisi-teks" id="pos-kanan" value="kanan"><label for="pos-kanan">➡ Kanan</label></div>
+          </div>
+        </div>
+        <hr class="divider" style="margin: 8px 0;">
+        <div class="input-group"><label>Tinggi Halaman</label>
+          <div class="radio-row">
+            <div class="radio-pill"><input type="radio" name="tinggi-halaman" id="tinggi-kop" value="kop"><label for="tinggi-kop">📄 Kop Saja</label></div>
+            <div class="radio-pill"><input type="radio" name="tinggi-halaman" id="tinggi-a4" value="A4" checked><label for="tinggi-a4">📜 A4</label></div>
+            <div class="radio-pill"><input type="radio" name="tinggi-halaman" id="tinggi-f4" value="F4"><label for="tinggi-f4">📜 F4</label></div>
+          </div>
+        </div>
+        <div class="input-group" style="margin-top:8px;">
+          <label>Radius Sudut Kertas: <span id="val-radius-kertas">4</span>px</label>
+          <input type="range" id="inp-radius-kertas" min="0" max="20" value="4">
+          <div class="range-label"><span>0</span><span>🔲</span><span>20</span></div>
+        </div>
+      </div>
+
+      <!-- Garis Horizontal -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg> Garis Horizontal</div>
+        <div class="checkbox-group"><input type="checkbox" id="inp-tampilkan-garis" checked> <label for="inp-tampilkan-garis">Tampilkan Garis Bawah</label></div>
+        <div class="input-group"><label>Jenis Garis</label><select id="inp-jenis-garis"><option value="solid">Solid</option><option value="double">Double</option><option value="dashed">Dashed</option><option value="dotted">Dotted</option></select></div>
+        <div class="input-row">
+          <div class="input-group half"><label>Tebal: <span id="val-tebal-garis">2</span>px</label><input type="range" id="inp-tebal-garis" min="1" max="10" value="2"></div>
+          <div class="input-group half"><label>Warna</label><input type="color" id="inp-warna-garis" value="#1a1a1a"></div>
+        </div>
+        <div class="input-group"><label>Jarak Garis dari Teks: <span id="val-jarak-garis-teks">12</span>px</label><input type="range" id="inp-jarak-garis-teks" min="2" max="40" value="12"></div>
+        <hr class="divider">
+        <div class="checkbox-group"><input type="checkbox" id="inp-tampilkan-garis2"> <label for="inp-tampilkan-garis2">Tampilkan Garis Kedua</label></div>
+        <div id="garis2-settings" style="display:none;">
+          <div class="input-row">
+            <div class="input-group half"><label>Tebal Garis 2: <span id="val-tebal-garis2">1</span>px</label><input type="range" id="inp-tebal-garis2" min="1" max="10" value="1"></div>
+            <div class="input-group half"><label>Warna Garis 2</label><input type="color" id="inp-warna-garis2" value="#1a1a1a"></div>
+          </div>
+          <div class="input-group"><label>Jarak Antar Garis: <span id="val-jarak-antar-garis">4</span>px</label><input type="range" id="inp-jarak-antar-garis" min="1" max="20" value="4"></div>
+        </div>
+      </div>
+
+      <!-- Template Cepat -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Template Cepat</div>
+        <div class="btn-row">
+          <button class="btn btn-outline btn-sm template-btn" data-template="sekolah">🏫 Sekolah</button>
+          <button class="btn btn-outline btn-sm template-btn" data-template="pemerintah">🏛️ Pemerintah</button>
+          <button class="btn btn-outline btn-sm template-btn" data-template="yayasan">🕊️ Yayasan</button>
+        </div>
+        <div class="btn-row" style="margin-top:4px;">
+          <button class="btn btn-outline btn-sm template-btn" data-template="perusahaan">🏢 Perusahaan</button>
+          <button class="btn btn-outline btn-sm template-btn" data-template="universitas">🎓 Universitas</button>
+        </div>
+      </div>
+
+      <!-- Background -->
+      <div class="section-card">
+        <div class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="12" cy="12" r="3"/></svg> Background Kertas</div>
+        <div class="radio-row">
+          <div class="radio-pill"><input type="radio" name="bg-kertas" id="bg-putih" value="putih" checked><label for="bg-putih">⬜ Putih</label></div>
+          <div class="radio-pill"><input type="radio" name="bg-kertas" id="bg-abu" value="abu"><label for="bg-abu">🔲 Abu-abu</label></div>
+          <div class="radio-pill"><input type="radio" name="bg-kertas" id="bg-custom" value="custom"><label for="bg-custom">🎨 Custom</label></div>
+        </div>
+        <div class="input-group" id="custom-bg-wrap" style="display:none; margin-top:8px;"><label>Warna Custom</label><input type="color" id="inp-bg-custom" value="#fafaf5"></div>
+      </div>
+
+      <!-- Tombol Aksi -->
+      <div class="section-card">
+        <div class="btn-row" style="margin-bottom:6px;">
+          <button class="btn btn-accent btn-sm" id="btn-export-png">📥 Export PNG</button>
+          <button class="btn btn-accent btn-sm" id="btn-export-jpg">📥 Export JPG</button>
+        </div>
+        <div class="btn-row" style="margin-bottom:6px;">
+          <button class="btn btn-outline btn-sm" id="btn-simpan-template">💾 Simpan Template</button>
+          <button class="btn btn-outline btn-sm" id="btn-muat-template">📂 Muat Template</button>
+        </div>
+        <div class="btn-row" style="margin-bottom:6px;">
+          <button class="btn btn-outline btn-sm" id="btn-ekspor-json">📤 Ekspor JSON</button>
+          <button class="btn btn-outline btn-sm" id="btn-impor-json">📥 Impor JSON</button>
+        </div>
+        <button class="btn btn-danger btn-sm btn-block" id="btn-reset">🔄 Reset ke Default</button>
+        <input type="file" id="inp-impor-file" accept=".json" style="display:none;">
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PANEL KANAN ==================== -->
+  <div id="panel-kanan">
+    <div class="preview-wrapper">
+      <div id="preview-kertas" class="bg-putih">
+        <div id="preview-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay" id="loading-overlay"><div class="spinner"></div><span style="color:#fff;">Memproses...</span></div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    (function() {
+      const $ = (sel) => document.querySelector(sel);
+      const $$ = (sel) => document.querySelectorAll(sel);
+
+      const inpNamaPemerintahan = $('#inp-nama-pemerintahan');
+      const inpNamaInstansi = $('#inp-nama-instansi');
+      const inpNamaDivisi = $('#inp-nama-divisi');
+      const inpAlamat = $('#inp-alamat');
+      const inpTelepon = $('#inp-telepon');
+      const inpEmail = $('#inp-email');
+      const inpWebsite = $('#inp-website');
+      const inpKodePos = $('#inp-kodepos');
+      const inpNpsn = $('#inp-npsn');
+      const inpNss = $('#inp-nss');
+      const inpAkreditasi = $('#inp-akreditasi');
+
+      const inpLogoKiriFile = $('#inp-logo-kiri-file');
+      const inpLogoKiriSize = $('#inp-logo-kiri-size');
+      const inpLogoKiriML = $('#inp-logo-kiri-ml');
+      const inpLogoKiriMT = $('#inp-logo-kiri-mt');
+      const thumbLogoKiri = $('#thumb-logo-kiri');
+      const btnHapusLogoKiri = $('#btn-hapus-logo-kiri');
+
+      const inpLogoKananFile = $('#inp-logo-kanan-file');
+      const inpLogoKananSize = $('#inp-logo-kanan-size');
+      const inpLogoKananMR = $('#inp-logo-kanan-mr');
+      const inpLogoKananMT = $('#inp-logo-kanan-mt');
+      const thumbLogoKanan = $('#thumb-logo-kanan');
+      const btnHapusLogoKanan = $('#btn-hapus-logo-kanan');
+
+      const inpFontPemerintahan = $('#inp-font-pemerintahan');
+      const inpFontSizePemerintahan = $('#inp-font-size-pemerintahan');
+      const inpBoldPemerintahan = $('#inp-bold-pemerintahan');
+      const inpWarnaPemerintahan = $('#inp-warna-pemerintahan');
+
+      const inpFontNama = $('#inp-font-nama');
+      const inpFontSizeNama = $('#inp-font-size-nama');
+      const inpBoldNama = $('#inp-bold-nama');
+      const inpWarnaNama = $('#inp-warna-nama');
+      const inpFontDivisi = $('#inp-font-divisi');
+      const inpFontSizeDivisi = $('#inp-font-size-divisi');
+      const inpBoldDivisi = $('#inp-bold-divisi');
+      const inpWarnaDivisi = $('#inp-warna-divisi');
+      const inpFontKontak = $('#inp-font-kontak');
+      const inpFontSizeKontak = $('#inp-font-size-kontak');
+      const inpWarnaKontak = $('#inp-warna-kontak');
+
+      const inpPadAtas = $('#inp-pad-atas');
+      const inpPadBawah = $('#inp-pad-bawah');
+      const inpPadKiri = $('#inp-pad-kiri');
+      const inpPadKanan = $('#inp-pad-kanan');
+      const inpJarakLogoTeks = $('#inp-jarak-logo-teks');
+      const inpJarakBaris = $('#inp-jarak-baris');
+      const radioPosisiTeks = $$('input[name="posisi-teks"]');
+      const radioTinggiHalaman = $$('input[name="tinggi-halaman"]');
+      const inpRadiusKertas = $('#inp-radius-kertas');
+
+      const inpTampilkanGaris = $('#inp-tampilkan-garis');
+      const inpJenisGaris = $('#inp-jenis-garis');
+      const inpTebalGaris = $('#inp-tebal-garis');
+      const inpWarnaGaris = $('#inp-warna-garis');
+      const inpJarakGarisTeks = $('#inp-jarak-garis-teks');
+      const inpTampilkanGaris2 = $('#inp-tampilkan-garis2');
+      const inpTebalGaris2 = $('#inp-tebal-garis2');
+      const inpWarnaGaris2 = $('#inp-warna-garis2');
+      const inpJarakAntarGaris = $('#inp-jarak-antar-garis');
+      const garis2Settings = $('#garis2-settings');
+      const paddingSettings = $('#padding-settings');
+
+      const radioBg = $$('input[name="bg-kertas"]');
+      const inpBgCustom = $('#inp-bg-custom');
+      const customBgWrap = $('#custom-bg-wrap');
+      const previewKertas = $('#preview-kertas');
+      const previewContent = $('#preview-content');
+      const previewWrapper = $('.preview-wrapper');
+      const panelKanan = $('#panel-kanan');
+      const loadingOverlay = $('#loading-overlay');
+      const toast = $('#toast');
+      const inpImporFile = $('#inp-impor-file');
+
+      let logoKiriDataUrl = null;
+      let logoKananDataUrl = null;
+
+      const defaultState = {
+        namaPemerintahan: '',
+        namaInstansi: 'DINAS PENDIDIKAN DAN KEBUDAYAAN',
+        namaDivisi: 'Bidang Pembinaan Sekolah Menengah',
+        alamat: 'Jl. Jenderal Sudirman No. 123, Kompleks Perkantoran',
+        telepon: '(021) 555-1234',
+        email: 'info@dikbud.go.id',
+        website: 'www.dikbud.go.id',
+        kodePos: '12345',
+        npsn: '',
+        nss: '',
+        akreditasi: '',
+        logoKiriSize: 80, logoKiriML: 10, logoKiriMT: 0,
+        logoKananSize: 80, logoKananMR: 10, logoKananMT: 0,
+        fontPemerintahan: 'Arial, sans-serif', fontSizePemerintahan: 16, boldPemerintahan: false, warnaPemerintahan: '#1a1a1a',
+        fontNama: 'Arial, sans-serif', fontSizeNama: 22, boldNama: true, warnaNama: '#1a1a1a',
+        fontDivisi: 'Arial, sans-serif', fontSizeDivisi: 14, boldDivisi: false, warnaDivisi: '#333333',
+        fontKontak: 'Arial, sans-serif', fontSizeKontak: 11, warnaKontak: '#555555',
+        padAtas: 20, padBawah: 15, padKiri: 25, padKanan: 25,
+        jarakLogoTeks: 20, jarakBaris: 1.6, posisiTeks: 'tengah', tinggiHalaman: 'A4',
+        radiusKertas: 4,
+        tampilkanGaris: true, jenisGaris: 'solid', tebalGaris: 2, warnaGaris: '#1a1a1a',
+        jarakGarisTeks: 12,
+        tampilkanGaris2: false, tebalGaris2: 1, warnaGaris2: '#1a1a1a', jarakAntarGaris: 4,
+        background: 'putih', customBgColor: '#fafaf5',
+      };
+
+      const templates = {
+        sekolah: {
+          namaPemerintahan: 'PEMERINTAH KOTA SURABAYA',
+          fontPemerintahan: 'Arial, sans-serif', fontSizePemerintahan: 16, boldPemerintahan: false, warnaPemerintahan: '#1a1a1a',
+          namaInstansi: 'SEKOLAH MENENGAH ATAS NEGERI 1',
+          namaDivisi: 'Tahun Pelajaran 2025/2026',
+          alamat: 'Jl. Pendidikan No. 45, Kecamatan Cendekia',
+          telepon: '(021) 444-5678',
+          email: 'info@sman1.sch.id',
+          website: 'www.sman1.sch.id',
+          kodePos: '55123',
+          npsn: '12345678',
+          nss: '87654321',
+          akreditasi: 'A',
+          fontNama: "'Times New Roman', serif", fontSizeNama: 24, boldNama: true, warnaNama: '#1a3c6e',
+          fontDivisi: 'Arial, sans-serif', fontSizeDivisi: 13, boldDivisi: false, warnaDivisi: '#444444',
+          fontKontak: 'Arial, sans-serif', fontSizeKontak: 10, warnaKontak: '#555555',
+          jenisGaris: 'double', tebalGaris: 3, warnaGaris: '#1a3c6e', tampilkanGaris2: false,
+          posisiTeks: 'tengah', background: 'putih',
+        },
+        pemerintah: {
+          namaPemerintahan: 'PEMERINTAH KOTA JAKARTA',
+          fontPemerintahan: 'Arial, sans-serif', fontSizePemerintahan: 18, boldPemerintahan: false, warnaPemerintahan: '#1a1a1a',
+          namaInstansi: 'KEMENTERIAN DALAM NEGERI',
+          namaDivisi: 'DIREKTORAT JENDERAL ADMINISTRASI',
+          alamat: 'Jl. Medan Merdeka Utara No. 7, Jakarta Pusat',
+          telepon: '(021) 345-0000',
+          email: 'humas@kemendagri.go.id',
+          website: 'www.kemendagri.go.id',
+          kodePos: '10110',
+          npsn:'', nss:'', akreditasi:'',
+          fontNama: "'Times New Roman', serif", fontSizeNama: 26, boldNama: true, warnaNama: '#8b0000',
+          fontDivisi: "'Times New Roman', serif", fontSizeDivisi: 14, boldDivisi: true, warnaDivisi: '#333333',
+          fontKontak: 'Arial, sans-serif', fontSizeKontak: 10, warnaKontak: '#444444',
+          jenisGaris: 'solid', tebalGaris: 4, warnaGaris: '#8b0000', tampilkanGaris2: true, tebalGaris2: 2, warnaGaris2: '#8b0000', jarakAntarGaris: 5,
+          posisiTeks: 'tengah', background: 'putih',
+        },
+        yayasan: {
+          namaPemerintahan: '',
+          namaInstansi: 'YAYASAN PENDIDIKAN MULIA',
+          namaDivisi: 'Akta Notaris No. 12 / 2020',
+          alamat: 'Jl. Kebajikan No. 88, Kota Harmoni',
+          telepon: '(022) 777-3344',
+          email: 'admin@yayasanmulia.or.id',
+          website: 'www.yayasanmulia.or.id',
+          kodePos: '40123',
+          npsn:'', nss:'', akreditasi:'',
+          fontNama: 'Georgia, serif', fontSizeNama: 22, boldNama: true, warnaNama: '#2d5a27',
+          fontDivisi: 'Arial, sans-serif', fontSizeDivisi: 12, boldDivisi: false, warnaDivisi: '#555555',
+          fontKontak: 'Arial, sans-serif', fontSizeKontak: 10, warnaKontak: '#666666',
+          jenisGaris: 'solid', tebalGaris: 2, warnaGaris: '#2d5a27', tampilkanGaris2: false,
+          posisiTeks: 'tengah', background: 'putih',
+        },
+        perusahaan: {
+          namaPemerintahan: '',
+          namaInstansi: 'PT. TEKNOLOGI NUSANTARA',
+          namaDivisi: 'Divisi Pengembangan Bisnis',
+          alamat: 'Gedung Graha Inovasi Lt. 12, Jl. Sudirman Kav. 45, Jakarta',
+          telepon: '(021) 888-9900',
+          email: 'corporate@teknusantara.co.id',
+          website: 'www.teknusantara.co.id',
+          kodePos: '12910',
+          npsn:'', nss:'', akreditasi:'',
+          fontNama: "'Segoe UI', sans-serif", fontSizeNama: 26, boldNama: true, warnaNama: '#0d3b66',
+          fontDivisi: "'Segoe UI', sans-serif", fontSizeDivisi: 13, boldDivisi: false, warnaDivisi: '#444444',
+          fontKontak: 'Arial, sans-serif', fontSizeKontak: 10, warnaKontak: '#666666',
+          jenisGaris: 'solid', tebalGaris: 3, warnaGaris: '#0d3b66', tampilkanGaris2: false,
+          posisiTeks: 'kiri', background: 'putih',
+        },
+        universitas: {
+          namaPemerintahan: '',
+          namaInstansi: 'UNIVERSITAS CENDEKIA NUSANTARA',
+          namaDivisi: 'Fakultas Ilmu Komputer',
+          alamat: 'Kampus Terpadu, Jl. Raya Pendidikan KM 12, Bogor',
+          telepon: '(0251) 333-2222',
+          email: 'rektorat@uncen.ac.id',
+          website: 'www.uncen.ac.id',
+          kodePos: '16123',
+          npsn:'', nss:'', akreditasi:'',
+          fontNama: "'Times New Roman', serif", fontSizeNama: 24, boldNama: true, warnaNama: '#4a0e4e',
+          fontDivisi: 'Georgia, serif', fontSizeDivisi: 14, boldDivisi: true, warnaDivisi: '#4a0e4e',
+          fontKontak: 'Arial, sans-serif', fontSizeKontak: 10, warnaKontak: '#555555',
+          jenisGaris: 'double', tebalGaris: 3, warnaGaris: '#4a0e4e', tampilkanGaris2: false,
+          posisiTeks: 'tengah', background: 'putih',
+        }
+      };
+
+      function getStateFromInputs() {
+        const pos = [...radioPosisiTeks].find(r=>r.checked)?.value||'tengah';
+        const tinggi = [...radioTinggiHalaman].find(r=>r.checked)?.value||'A4';
+        const bg = [...radioBg].find(r=>r.checked)?.value||'putih';
+        return {
+          namaPemerintahan: inpNamaPemerintahan.value,
+          namaInstansi: inpNamaInstansi.value,
+          namaDivisi: inpNamaDivisi.value,
+          alamat: inpAlamat.value,
+          telepon: inpTelepon.value,
+          email: inpEmail.value,
+          website: inpWebsite.value,
+          kodePos: inpKodePos.value,
+          npsn: inpNpsn.value,
+          nss: inpNss.value,
+          akreditasi: inpAkreditasi.value,
+          logoKiriSize: +inpLogoKiriSize.value, logoKiriML: +inpLogoKiriML.value, logoKiriMT: +inpLogoKiriMT.value,
+          logoKananSize: +inpLogoKananSize.value, logoKananMR: +inpLogoKananMR.value, logoKananMT: +inpLogoKananMT.value,
+          fontPemerintahan: inpFontPemerintahan.value, fontSizePemerintahan: +inpFontSizePemerintahan.value, boldPemerintahan: inpBoldPemerintahan.checked, warnaPemerintahan: inpWarnaPemerintahan.value,
+          fontNama: inpFontNama.value, fontSizeNama: +inpFontSizeNama.value, boldNama: inpBoldNama.checked, warnaNama: inpWarnaNama.value,
+          fontDivisi: inpFontDivisi.value, fontSizeDivisi: +inpFontSizeDivisi.value, boldDivisi: inpBoldDivisi.checked, warnaDivisi: inpWarnaDivisi.value,
+          fontKontak: inpFontKontak.value, fontSizeKontak: +inpFontSizeKontak.value, warnaKontak: inpWarnaKontak.value,
+          padAtas: +inpPadAtas.value, padBawah: +inpPadBawah.value, padKiri: +inpPadKiri.value, padKanan: +inpPadKanan.value,
+          jarakLogoTeks: +inpJarakLogoTeks.value, jarakBaris: +inpJarakBaris.value,
+          posisiTeks: pos, tinggiHalaman: tinggi,
+          radiusKertas: +inpRadiusKertas.value,
+          tampilkanGaris: inpTampilkanGaris.checked, jenisGaris: inpJenisGaris.value, tebalGaris: +inpTebalGaris.value, warnaGaris: inpWarnaGaris.value,
+          jarakGarisTeks: +inpJarakGarisTeks.value,
+          tampilkanGaris2: inpTampilkanGaris2.checked, tebalGaris2: +inpTebalGaris2.value, warnaGaris2: inpWarnaGaris2.value, jarakAntarGaris: +inpJarakAntarGaris.value,
+          background: bg, customBgColor: inpBgCustom.value,
+        };
+      }
+
+      function applyStateToInputs(s) {
+        inpNamaPemerintahan.value = s.namaPemerintahan || '';
+        inpNamaInstansi.value = s.namaInstansi;
+        inpNamaDivisi.value = s.namaDivisi;
+        inpAlamat.value = s.alamat;
+        inpTelepon.value = s.telepon;
+        inpEmail.value = s.email;
+        inpWebsite.value = s.website;
+        inpKodePos.value = s.kodePos;
+        inpNpsn.value = s.npsn || '';
+        inpNss.value = s.nss || '';
+        inpAkreditasi.value = s.akreditasi || '';
+        inpLogoKiriSize.value = s.logoKiriSize; inpLogoKiriML.value = s.logoKiriML; inpLogoKiriMT.value = s.logoKiriMT;
+        inpLogoKananSize.value = s.logoKananSize; inpLogoKananMR.value = s.logoKananMR; inpLogoKananMT.value = s.logoKananMT;
+        inpFontPemerintahan.value = s.fontPemerintahan; inpFontSizePemerintahan.value = s.fontSizePemerintahan; inpBoldPemerintahan.checked = s.boldPemerintahan; inpWarnaPemerintahan.value = s.warnaPemerintahan;
+        inpFontNama.value = s.fontNama; inpFontSizeNama.value = s.fontSizeNama; inpBoldNama.checked = s.boldNama; inpWarnaNama.value = s.warnaNama;
+        inpFontDivisi.value = s.fontDivisi; inpFontSizeDivisi.value = s.fontSizeDivisi; inpBoldDivisi.checked = s.boldDivisi; inpWarnaDivisi.value = s.warnaDivisi;
+        inpFontKontak.value = s.fontKontak; inpFontSizeKontak.value = s.fontSizeKontak; inpWarnaKontak.value = s.warnaKontak;
+        inpPadAtas.value = s.padAtas; inpPadBawah.value = s.padBawah; inpPadKiri.value = s.padKiri; inpPadKanan.value = s.padKanan;
+        inpJarakLogoTeks.value = s.jarakLogoTeks; inpJarakBaris.value = s.jarakBaris;
+        radioPosisiTeks.forEach(r => r.checked = r.value === s.posisiTeks);
+        radioTinggiHalaman.forEach(r => r.checked = r.value === s.tinggiHalaman);
+        inpRadiusKertas.value = s.radiusKertas;
+        inpTampilkanGaris.checked = s.tampilkanGaris; inpJenisGaris.value = s.jenisGaris; inpTebalGaris.value = s.tebalGaris; inpWarnaGaris.value = s.warnaGaris;
+        inpJarakGarisTeks.value = s.jarakGarisTeks;
+        inpTampilkanGaris2.checked = s.tampilkanGaris2; inpTebalGaris2.value = s.tebalGaris2; inpWarnaGaris2.value = s.warnaGaris2; inpJarakAntarGaris.value = s.jarakAntarGaris;
+        radioBg.forEach(r => r.checked = r.value === s.background);
+        inpBgCustom.value = s.customBgColor;
+        updateVisibility();
+        updateAllRangeLabels();
+      }
+
+      function updateVisibility() {
+        garis2Settings.style.display = inpTampilkanGaris2.checked ? 'block' : 'none';
+        customBgWrap.style.display = ([...radioBg].find(r=>r.checked)?.value==='custom') ? 'block' : 'none';
+        const tinggi = [...radioTinggiHalaman].find(r=>r.checked)?.value;
+        paddingSettings.style.display = (tinggi === 'kop') ? 'none' : 'block';
+      }
+
+      function updateAllRangeLabels() {
+        $('#val-logo-kiri-size').textContent = inpLogoKiriSize.value;
+        $('#val-logo-kiri-ml').textContent = inpLogoKiriML.value;
+        $('#val-logo-kiri-mt').textContent = inpLogoKiriMT.value;
+        $('#val-logo-kanan-size').textContent = inpLogoKananSize.value;
+        $('#val-logo-kanan-mr').textContent = inpLogoKananMR.value;
+        $('#val-logo-kanan-mt').textContent = inpLogoKananMT.value;
+        $('#val-font-size-pemerintahan').textContent = inpFontSizePemerintahan.value;
+        $('#val-font-size-nama').textContent = inpFontSizeNama.value;
+        $('#val-font-size-divisi').textContent = inpFontSizeDivisi.value;
+        $('#val-font-size-kontak').textContent = inpFontSizeKontak.value;
+        $('#val-pad-atas').textContent = inpPadAtas.value;
+        $('#val-pad-bawah').textContent = inpPadBawah.value;
+        $('#val-pad-kiri').textContent = inpPadKiri.value;
+        $('#val-pad-kanan').textContent = inpPadKanan.value;
+        $('#val-jarak-logo-teks').textContent = inpJarakLogoTeks.value;
+        $('#val-jarak-baris').textContent = inpJarakBaris.value;
+        $('#val-radius-kertas').textContent = inpRadiusKertas.value;
+        $('#val-tebal-garis').textContent = inpTebalGaris.value;
+        $('#val-jarak-garis-teks').textContent = inpJarakGarisTeks.value;
+        $('#val-tebal-garis2').textContent = inpTebalGaris2.value;
+        $('#val-jarak-antar-garis').textContent = inpJarakAntarGaris.value;
+      }
+
+      function buildKontakHTML(state) {
+        const parts = [];
+        if (state.alamat.trim()) parts.push(state.alamat.trim());
+        const items = [];
+        if (state.telepon.trim()) items.push(state.telepon.trim());
+        if (state.email.trim()) items.push(state.email.trim());
+        if (state.website.trim()) items.push(state.website.trim());
+        if (state.kodePos.trim()) items.push(state.kodePos.trim());
+        if (items.length) parts.push(items.join(' &nbsp;|&nbsp; '));
+        return parts.join('<br>');
+      }
+
+      function updatePreviewScale() {
+        const cw = panelKanan.clientWidth - 40;
+        const ch = panelKanan.clientHeight - 40;
+        const kw = previewKertas.offsetWidth;
+        const kh = previewKertas.offsetHeight;
+        if (!kw || !kh) return;
+        let scale = Math.min(cw/kw, ch/kh, 1);
+        scale = Math.max(0.3, scale);
+        previewWrapper.style.transform = `scale(${scale})`;
+      }
+
+      function updatePreview() {
+        const state = getStateFromInputs();
+        updateAllRangeLabels();
+        updateVisibility();
+
+        previewKertas.style.borderRadius = state.radiusKertas + 'px';
+
+        if (state.tinggiHalaman === 'kop') {
+          previewKertas.style.minHeight = 'auto';
+          previewKertas.style.height = 'auto';
+        } else if (state.tinggiHalaman === 'A4') {
+          previewKertas.style.minHeight = '842px';
+          previewKertas.style.height = 'auto';
+        } else if (state.tinggiHalaman === 'F4') {
+          previewKertas.style.minHeight = '935px';
+          previewKertas.style.height = 'auto';
+        }
+
+        previewKertas.classList.remove('bg-putih','bg-abu','bg-custom');
+        if (state.background==='putih') { previewKertas.classList.add('bg-putih'); previewKertas.style.backgroundColor='#ffffff'; }
+        else if (state.background==='abu') { previewKertas.classList.add('bg-abu'); previewKertas.style.backgroundColor='#f5f5f5'; }
+        else { previewKertas.classList.add('bg-custom'); previewKertas.style.backgroundColor=state.customBgColor; }
+
+        const padTop = state.tinggiHalaman==='kop' ? 0 : state.padAtas;
+        const padBottom = state.tinggiHalaman==='kop' ? 0 : state.padBawah;
+        const padLeft = state.tinggiHalaman==='kop' ? 0 : state.padKiri;
+        const padRight = state.tinggiHalaman==='kop' ? 0 : state.padKanan;
+
+        const padStyle = `padding: ${padTop}px ${padRight}px ${padBottom}px ${padLeft}px;`;
+        let textAlign = 'center';
+        if (state.posisiTeks==='kiri') textAlign='left';
+        if (state.posisiTeks==='kanan') textAlign='right';
+
+        let logoLeftHTML = '';
+        if (logoKiriDataUrl) {
+          logoLeftHTML = `<div class="kop-logo-left" style="margin-left:${state.logoKiriML}px; margin-top:${state.logoKiriMT}px; flex-shrink:0;"><img src="${logoKiriDataUrl}" style="width:${state.logoKiriSize}px; height:auto; object-fit:contain;" alt="Logo Kiri"></div>`;
+        }
+        let logoRightHTML = '';
+        if (logoKananDataUrl) {
+          logoRightHTML = `<div class="kop-logo-right" style="margin-right:${state.logoKananMR}px; margin-top:${state.logoKananMT}px; flex-shrink:0;"><img src="${logoKananDataUrl}" style="width:${state.logoKananSize}px; height:auto; object-fit:contain;" alt="Logo Kanan"></div>`;
+        }
+
+        let pemerintahanHTML = '';
+        if (state.namaPemerintahan.trim()) {
+          const pStyle = `font-family:${state.fontPemerintahan}; font-size:${state.fontSizePemerintahan}px; font-weight:${state.boldPemerintahan?'700':'400'}; color:${state.warnaPemerintahan}; margin:0 0 2px 0; padding:0; line-height:1.2;`;
+          pemerintahanHTML = `<div style="${pStyle}">${escapeHTML(state.namaPemerintahan)}</div>`;
+        }
+
+        const namaStyle = `font-family:${state.fontNama}; font-size:${state.fontSizeNama}px; font-weight:${state.boldNama?'700':'400'}; color:${state.warnaNama}; margin:0; padding:0; line-height:1.2;`;
+        const namaHTML = `<div class="kop-nama-instansi" style="${namaStyle}">${escapeHTML(state.namaInstansi)||'&nbsp;'}</div>`;
+
+        let divisiHTML = '';
+        if (state.namaDivisi.trim()) {
+          const dStyle = `font-family:${state.fontDivisi}; font-size:${state.fontSizeDivisi}px; font-weight:${state.boldDivisi?'700':'400'}; color:${state.warnaDivisi}; margin:2px 0 0 0; padding:0; line-height:1.3;`;
+          divisiHTML = `<div class="kop-nama-divisi" style="${dStyle}">${escapeHTML(state.namaDivisi)}</div>`;
+        }
+
+        const kontakHTML = buildKontakHTML(state);
+        const kontakStyle = `font-family:${state.fontKontak}; font-size:${state.fontSizeKontak}px; color:${state.warnaKontak}; margin:4px 0 0 0; padding:0; line-height:${state.jarakBaris};`;
+        const kontakDivHTML = `<div class="kop-info-kontak" style="${kontakStyle}">${kontakHTML||'&nbsp;'}</div>`;
+
+        let npsnNssHTML = '';
+        const idParts = [];
+        if (state.npsn.trim()) idParts.push(`NPSN : ${escapeHTML(state.npsn.trim())}`);
+        if (state.nss.trim()) idParts.push(`NSS : ${escapeHTML(state.nss.trim())}`);
+        if (state.akreditasi.trim()) idParts.push(`Akreditasi : ${escapeHTML(state.akreditasi.trim())}`);
+        if (idParts.length > 0) {
+          const nStyle = `font-family:${state.fontKontak}; font-size:${Math.max(9, state.fontSizeKontak-1)}px; color:${state.warnaKontak}; margin:2px 0 0 0; padding:0; line-height:1.4;`;
+          npsnNssHTML = `<div class="kop-npsn-nss" style="${nStyle}">${idParts.join(' &nbsp;&nbsp; ')}</div>`;
+        }
+
+        const teksAreaStyle = `flex:1; min-width:0; text-align:${textAlign};`;
+        const teksAreaHTML = `<div class="kop-teks-area" style="${teksAreaStyle}">${pemerintahanHTML}${namaHTML}${divisiHTML}${kontakDivHTML}${npsnNssHTML}</div>`;
+
+        const headerGap = state.jarakLogoTeks;
+        const headerHTML = `<div class="kop-header" style="display:flex; align-items:flex-start; width:100%; gap:${headerGap}px; ${padStyle}">${logoLeftHTML}${teksAreaHTML}${logoRightHTML}</div>`;
+
+        let html = headerHTML;
+
+        if (state.tampilkanGaris) {
+          const g1Style = `border:none; border-top:${state.tebalGaris}px ${state.jenisGaris} ${state.warnaGaris}; margin:0 ${padRight}px 0 ${padLeft}px; flex-shrink:0;`;
+          html += `<div class="kop-spacer" style="height:${state.jarakGarisTeks}px; flex-shrink:0;"></div>`;
+          html += `<hr class="kop-garis kop-garis-1" style="${g1Style}">`;
+          if (state.tampilkanGaris2) {
+            const g2Style = `border:none; border-top:${state.tebalGaris2}px ${state.jenisGaris} ${state.warnaGaris2}; margin:0 ${padRight}px 0 ${padLeft}px; flex-shrink:0;`;
+            html += `<div class="kop-spacer" style="height:${state.jarakAntarGaris}px; flex-shrink:0;"></div>`;
+            html += `<hr class="kop-garis kop-garis-2" style="${g2Style}">`;
+          }
+        }
+
+        previewContent.innerHTML = html;
+        setTimeout(updatePreviewScale, 10);
+      }
+
+      function escapeHTML(s) {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      }
+
+      function handleLogoUpload(fileInput, thumbEl, isKiri) {
+        const file = fileInput.files[0];
+        if (!file) return;
+        if (!file.type.match(/image\//)) { showToast('Harap pilih file gambar.','error'); return; }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const dataUrl = e.target.result;
+          if (isKiri) { logoKiriDataUrl = dataUrl; thumbLogoKiri.innerHTML = `<img src="${dataUrl}" alt="Logo Kiri">`; }
+          else { logoKananDataUrl = dataUrl; thumbLogoKanan.innerHTML = `<img src="${dataUrl}" alt="Logo Kanan">`; }
+          updatePreview(); showToast('Logo berhasil diupload!','success');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function hapusLogo(isKiri) {
+        if (isKiri) { logoKiriDataUrl=null; thumbLogoKiri.innerHTML='<span class="placeholder">🖼️</span>'; inpLogoKiriFile.value=''; }
+        else { logoKananDataUrl=null; thumbLogoKanan.innerHTML='<span class="placeholder">🖼️</span>'; inpLogoKananFile.value=''; }
+        updatePreview(); showToast('Logo dihapus.','success');
+      }
+
+      let toastTimer;
+      function showToast(msg,type='') {
+        clearTimeout(toastTimer);
+        toast.textContent=msg; toast.className='toast '+type+' show';
+        toastTimer = setTimeout(()=>toast.classList.remove('show'),2500);
+      }
+
+      function showLoading(){ loadingOverlay.classList.add('active'); }
+      function hideLoading(){ loadingOverlay.classList.remove('active'); }
+
+      async function exportPreview(format) {
+        if (typeof html2canvas === 'undefined') { showToast('html2canvas belum termuat.','error'); return; }
+        showLoading();
+        try {
+          const oldTransform = previewWrapper.style.transform;
+          previewWrapper.style.transform = 'none';
+          await new Promise(r=>requestAnimationFrame(r));
+          const canvas = await html2canvas(previewKertas, {
+            scale: 3, useCORS: true, allowTaint: true,
+            backgroundColor: previewKertas.style.backgroundColor||'#ffffff', logging: false,
+          });
+          previewWrapper.style.transform = oldTransform;
+          const mime = format==='jpg'?'image/jpeg':'image/png';
+          const blob = await new Promise(r=>canvas.toBlob(r,mime,format==='jpg'?0.95:undefined));
+          const date = new Date();
+          const ds = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+          const ext = format==='jpg'?'jpg':'png';
+          const filename = `kop-surat-${ds}.${ext}`;
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click();
+          document.body.removeChild(a); URL.revokeObjectURL(url);
+          showToast(`Berhasil diexport sebagai ${filename}`, 'success');
+        } catch (err) { console.error(err); showToast('Gagal mengexport.','error'); }
+        hideLoading();
+      }
+
+      function simpanTemplate() {
+        const state = getStateFromInputs();
+        const data = { state, logoKiri: logoKiriDataUrl, logoKanan: logoKananDataUrl, timestamp: new Date().toISOString() };
+        try { localStorage.setItem('kop-surat-template', JSON.stringify(data)); showToast('Template berhasil disimpan! ✅','success'); }
+        catch(e) { showToast('Gagal menyimpan template.','error'); }
+      }
+
+      function muatTemplate() {
+        const raw = localStorage.getItem('kop-surat-template');
+        if (!raw) { showToast('Tidak ada template tersimpan.','error'); return; }
+        try {
+          const data = JSON.parse(raw);
+          if (data.state) {
+            applyStateToInputs(data.state);
+            logoKiriDataUrl = data.logoKiri||null; logoKananDataUrl = data.logoKanan||null;
+            thumbLogoKiri.innerHTML = logoKiriDataUrl ? `<img src="${logoKiriDataUrl}">` : '<span class="placeholder">🖼️</span>';
+            thumbLogoKanan.innerHTML = logoKananDataUrl ? `<img src="${logoKananDataUrl}">` : '<span class="placeholder">🖼️</span>';
+            updatePreview(); showToast('Template berhasil dimuat! 📂','success');
+          }
+        } catch(e) { showToast('Data template rusak.','error'); }
+      }
+
+      // ============ EKSPOR & IMPOR JSON ============
+      function eksporTemplateJSON() {
+        const state = getStateFromInputs();
+        const data = {
+          version: '1.0',
+          state: state,
+          logoKiri: logoKiriDataUrl,
+          logoKanan: logoKananDataUrl,
+          timestamp: new Date().toISOString()
+        };
+        const jsonStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const date = new Date();
+        const ds = `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+        a.download = `kop-template-${ds}.json`;
+        a.href = url;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Template berhasil diekspor sebagai JSON','success');
+      }
+
+      function imporTemplateJSON(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const json = JSON.parse(e.target.result);
+            if (!json.state) throw new Error('Format tidak valid');
+            applyStateToInputs(json.state);
+            logoKiriDataUrl = json.logoKiri || null;
+            logoKananDataUrl = json.logoKanan || null;
+            thumbLogoKiri.innerHTML = logoKiriDataUrl ? `<img src="${logoKiriDataUrl}">` : '<span class="placeholder">🖼️</span>';
+            thumbLogoKanan.innerHTML = logoKananDataUrl ? `<img src="${logoKananDataUrl}">` : '<span class="placeholder">🖼️</span>';
+            updatePreview();
+            showToast('Template berhasil diimpor dari JSON','success');
+          } catch (error) {
+            showToast('Gagal mengimpor file. Pastikan format JSON valid.','error');
+          }
+        };
+        reader.readAsText(file);
+        inpImporFile.value = '';
+      }
+
+      function resetTemplate() {
+        if (confirm('Yakin ingin mereset semua pengaturan ke default?')) {
+          logoKiriDataUrl=null; logoKananDataUrl=null;
+          thumbLogoKiri.innerHTML='<span class="placeholder">🖼️</span>'; thumbLogoKanan.innerHTML='<span class="placeholder">🖼️</span>';
+          inpLogoKiriFile.value=''; inpLogoKananFile.value='';
+          applyStateToInputs(JSON.parse(JSON.stringify(defaultState)));
+          updatePreview(); showToast('Pengaturan direset ke default. 🔄','success');
+        }
+      }
+
+      function applyTemplate(name) {
+        const tmpl = templates[name];
+        if (!tmpl) return;
+        applyStateToInputs({ ...JSON.parse(JSON.stringify(defaultState)), ...tmpl });
+        updatePreview();
+        const names={sekolah:'Sekolah 🏫',pemerintah:'Pemerintah 🏛️',yayasan:'Yayasan 🕊️',perusahaan:'Perusahaan 🏢',universitas:'Universitas 🎓'};
+        showToast('Template '+(names[name]||name)+' diterapkan!','success');
+      }
+
+      // Event listeners
+      const allInputs = [
+        inpNamaPemerintahan, inpNamaInstansi, inpNamaDivisi, inpAlamat, inpTelepon, inpEmail, inpWebsite, inpKodePos, inpNpsn, inpNss, inpAkreditasi,
+        inpLogoKiriSize, inpLogoKiriML, inpLogoKiriMT,
+        inpLogoKananSize, inpLogoKananMR, inpLogoKananMT,
+        inpFontPemerintahan, inpFontSizePemerintahan, inpBoldPemerintahan, inpWarnaPemerintahan,
+        inpFontNama, inpFontSizeNama, inpBoldNama, inpWarnaNama,
+        inpFontDivisi, inpFontSizeDivisi, inpBoldDivisi, inpWarnaDivisi,
+        inpFontKontak, inpFontSizeKontak, inpWarnaKontak,
+        inpPadAtas, inpPadBawah, inpPadKiri, inpPadKanan,
+        inpJarakLogoTeks, inpJarakBaris,
+        inpRadiusKertas,
+        inpTampilkanGaris, inpJenisGaris, inpTebalGaris, inpWarnaGaris, inpJarakGarisTeks,
+        inpTampilkanGaris2, inpTebalGaris2, inpWarnaGaris2, inpJarakAntarGaris,
+        inpBgCustom,
+      ];
+      allInputs.forEach(el => el.addEventListener('input', updatePreview));
+
+      radioPosisiTeks.forEach(r => r.addEventListener('change', updatePreview));
+      radioTinggiHalaman.forEach(r => r.addEventListener('change', updatePreview));
+      radioBg.forEach(r => r.addEventListener('change', updatePreview));
+      inpTampilkanGaris2.addEventListener('change', updatePreview);
+
+      inpLogoKiriFile.addEventListener('change', ()=>handleLogoUpload(inpLogoKiriFile, thumbLogoKiri, true));
+      inpLogoKananFile.addEventListener('change', ()=>handleLogoUpload(inpLogoKananFile, thumbLogoKanan, false));
+      btnHapusLogoKiri.addEventListener('click', ()=>hapusLogo(true));
+      btnHapusLogoKanan.addEventListener('click', ()=>hapusLogo(false));
+
+      $$('.template-btn').forEach(b=>b.addEventListener('click', ()=>applyTemplate(b.dataset.template)));
+      $('#btn-export-png').addEventListener('click', ()=>exportPreview('png'));
+      $('#btn-export-jpg').addEventListener('click', ()=>exportPreview('jpg'));
+      $('#btn-simpan-template').addEventListener('click', simpanTemplate);
+      $('#btn-muat-template').addEventListener('click', muatTemplate);
+      $('#btn-reset').addEventListener('click', resetTemplate);
+      $('#btn-ekspor-json').addEventListener('click', eksporTemplateJSON);
+      $('#btn-impor-json').addEventListener('click', () => inpImporFile.click());
+      inpImporFile.addEventListener('change', (e) => {
+        if (e.target.files && e.target.files[0]) imporTemplateJSON(e.target.files[0]);
+      });
+
+      window.addEventListener('resize', updatePreviewScale);
+      document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&e.key==='s'){ e.preventDefault(); simpanTemplate(); } });
+
+      function init() {
+        updateVisibility();
+        updateAllRangeLabels();
+        updatePreview();
+        setTimeout(updatePreviewScale, 20);
+      }
+      init();
+    })();
+  </script>
+</body>
+</html>

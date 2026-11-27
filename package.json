@@ -1,0 +1,56 @@
+{
+  "name": "react-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist server.js",
+    "lint": "tsc --noEmit",
+    "lint:server": "tsc --noEmit -p server/tsconfig.json",
+    "server": "tsx server/src/index.ts",
+    "dev:server": "tsx watch server/src/index.ts",
+    "db:migrate": "tsx server/src/migrate.ts",
+    "test": "tsx --test tests/apiClient.test.ts tests/formatter.test.ts tests/core.test.ts tests/kategoriKas.test.ts tests/backupService.test.ts tests/iuranPembayaran.test.ts tests/pembatalanPembayaran.test.ts tests/pengaturan.test.ts tests/nis.test.ts tests/santriImport.test.ts tests/santriFoto.test.ts tests/zipHelper.test.ts tests/bulkSelection.test.ts tests/laporanKilatanPerSantri.test.ts tests/aktivitas.test.ts tests/keringanan.test.ts",
+    "test:e2e": "playwright test",
+    "test:smoke": "node server/tests/smoke.mjs"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.9",
+    "lucide-react": "^0.546.0",
+    "mysql2": "^3.24.6",
+    "react": "^19.0.1",
+    "react-dom": "^19.0.1",
+    "react-is": "^19.3.1",
+    "react-router-dom": "^7.18.4",
+    "recharts": "^3.10.1",
+    "vite": "^8.3.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.25",
+    "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.4.21",
+    "esbuild": "^0.25.0",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.21.0",
+    "typescript": "^7.0.2"
+  },
+  "plugins": [
+    "@dietrichgebert/ponytail"
+  ]
+}
